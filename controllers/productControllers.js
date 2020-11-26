@@ -21,3 +21,15 @@ export const postProduct = asyncHandler( async (req,res) => {
     }
 })
 
+export const getProducts = asyncHandler( async (_,res) =>{
+    try {
+        const products = await Product.find()
+                            .select("_id name image description price countInStock")
+                            .populate('user').select("name")
+        res.status(200).json(products)
+    } catch (error) {
+        res.status(404)
+        throw new Error('Error retrieving products')
+    }
+    
+})
