@@ -1,5 +1,10 @@
-const express = require('express')
+import dotenv from 'dotenv'
+import connectDatabase from './config/db.js'
+import express from 'express'
 
+dotenv.config()
+
+connectDatabase()
 const app = express()
 
 
