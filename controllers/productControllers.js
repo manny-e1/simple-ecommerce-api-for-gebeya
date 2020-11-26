@@ -33,3 +33,24 @@ export const getProducts = asyncHandler( async (_,res) =>{
     }
     
 })
+
+export const getProductById = asyncHandler( async (req,res)=>{
+    try {
+        const product = await Product.findById(req.params.id).populate('user')
+        const { _id, name, image, description, 
+            price, countInStock, user: {name: seller} } = product
+        res.status(200).json({
+            id: _id,
+            name,
+            image,
+            description,
+            price,
+            countInStock,
+            vendor: seller
+        })
+    } catch (error) {
+        res.status(404)
+        throw new Error('Product not found')
+    }
+    
+})
