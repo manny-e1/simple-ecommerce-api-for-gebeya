@@ -68,3 +68,30 @@ export const getUserById = asyncHandler(async (req,res) =>{
     }
 })
 
+export const updateUser = asyncHandler(async (req,res) =>{
+    try {
+        const user = await User.findById(req.user.id)
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        if(req.body.password){
+            user.password = req.body.password
+        }
+        const updatedUser = await user.save()
+        res.status(200).json({
+            id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+        })
+    } catch (error) {
+        res.json(error)
+    }
+})
+
+export const deleteUser = asyncHandler(async (req,res) =>{
+    try {
+        const deletedUser = await User.findByIdAndDelete(req.params.id)
+        res.json(deletedUser)
+    } catch (error) {
+            res.json(error)
+    }
+})
