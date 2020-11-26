@@ -5,7 +5,7 @@ import protect from '../middlewares/authentication.js'
 const router = express.Router()
 
 router.route('/create').post(protect, postProduct)
-router.route('/').get(getProducts)
-router.route('/:id').get(getProductById)
+router.route('/').get(protect, getProducts)
+router.route('/:id').get(protect, getProductById)
 
 export default router
