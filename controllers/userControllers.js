@@ -49,7 +49,7 @@ export const userLogin = asyncHandler(async (req,res) =>{
 
 export const getUsers = asyncHandler(async (req,res) =>{
     try {
-        const users = await User.find()
+        const users = await User.find().select("_id name email")
         res.status(200).json(users)
     } catch (error) {
         res.status(404)
@@ -60,7 +60,7 @@ export const getUsers = asyncHandler(async (req,res) =>{
 export const getUserById = asyncHandler(async (req,res) =>{
     try {
         const {id} = req.params
-        const user = await User.findById(id)
+        const user = await User.findById(id).select("_id name email")
         res.status(200).json(user)
     } catch (error) {
         res.status(404)
