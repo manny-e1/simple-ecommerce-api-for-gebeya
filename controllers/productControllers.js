@@ -6,7 +6,7 @@ export const postProduct = asyncHandler( async (req,res) => {
     const { name, image, description, price, countInStock } = req.body
     try {
         const createdProduct = await Product.create({
-            vendor: req.user,
+            vendor: req.user.id,
             name,
             image,
             description,
@@ -36,10 +36,9 @@ export const getProducts = asyncHandler( async (_,res) =>{
 
 export const getProductById = asyncHandler( async (req,res)=>{
     try {
-        const product = await Product.findById(req.params.id)
+        const product = await Product.findById(req.params.id).populate('vendor')
         const { _id, name, image, description, 
             price, countInStock, vendor: {name: seller} } = product
-        console.log(req.user);
         res.status(200).json({
             id: _id,
             name,

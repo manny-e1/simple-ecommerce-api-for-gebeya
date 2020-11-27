@@ -7,6 +7,7 @@ import { notFound, errorHandler } from './middlewares/error.js'
 
 import userRoutes from './routes/userRoutes.js'
 import productRoutes from './routes/productRoutes.js'
+import cartRoutes from './routes/cartRoutes.js'
 
 dotenv.config()
 
@@ -17,6 +18,7 @@ app.use(express.json())
 
 app.use('/users', userRoutes)
 app.use('/products', productRoutes)
+app.use('/carts', cartRoutes)
 
 
 app.use(notFound)

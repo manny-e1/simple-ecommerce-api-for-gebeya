@@ -1,6 +1,6 @@
-import monoogse, { Schema } from 'mongoose'
+import mongoose from 'mongoose'
 
-const cartSchema = monoogse.Schema({
+const cartSchema =  mongoose.Schema({
     buyer: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -9,15 +9,16 @@ const cartSchema = monoogse.Schema({
     products: [
         {
             product: {
-                type: Schema.Types.ObjectId,
+                type: mongoose.Schema.Types.ObjectId,
                 ref: 'Product',
                 required: true,
             },
-            subTotal: {type: Number},
             quantity: {type: Number},
         }
     ]
 
+},{
+    timestamps: true,
 })
 
 const Cart = mongoose.model('Cart', cartSchema)
