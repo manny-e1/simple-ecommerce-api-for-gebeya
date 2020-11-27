@@ -8,7 +8,7 @@ const protect = asyncHandler( async (req,res,next) => {
         try {
             token = req.headers.authorization.split(' ')[1]
             const {id} = jwt.verify(token, process.env.SECRET_KEY)
-            const currentUser = await User.findById(id)
+            const currentUser = await User.findById(id).select("_id name email")
             req.user = currentUser
             next()
         } catch (error) {

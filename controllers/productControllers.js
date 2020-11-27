@@ -6,16 +6,17 @@ export const postProduct = asyncHandler( async (req,res) => {
     const { name, image, description, price, countInStock } = req.body
     try {
         const createdProduct = await Product.create({
-            user: req.user,
+            vendor: req.user,
             name,
             image,
             description,
             price,
             countInStock
-        }).populate('user')
+        })
         res.status(201).json(createdProduct)
     } catch (error) {
         res.status(400)
+        console.log(error);
         throw new Error("Error creating product")
 
     }
@@ -24,8 +25,7 @@ export const postProduct = asyncHandler( async (req,res) => {
 export const getProducts = asyncHandler( async (_,res) =>{
     try {
         const products = await Product.find()
-                            .select("_id name image description price countInStock")
-                            .populate('user').select("name")
+                            .select("_id name image description price countInStock vendor")
         res.status(200).json(products)
     } catch (error) {
         res.status(404)
@@ -36,9 +36,10 @@ export const getProducts = asyncHandler( async (_,res) =>{
 
 export const getProductById = asyncHandler( async (req,res)=>{
     try {
-        const product = await Product.findById(req.params.id).populate('user')
+        const product = await Product.findById(req.params.id)
         const { _id, name, image, description, 
-            price, countInStock, user: {name: seller} } = product
+            price, countInStock, vendor: {name: seller} } = product
+        console.log(req.user);
         res.status(200).json({
             id: _id,
             name,
@@ -53,4 +54,13 @@ export const getProductById = asyncHandler( async (req,res)=>{
         throw new Error('Product not found')
     }
     
+})
+
+export const deleteProduct = asyncHandler(async (req,res) =>{
+    try {
+        const deletedProduct = await Product.findByIdAndDelete(req.params.id)
+        res.json(deletedProduct)
+    } catch (error) {
+            res.json(error)
+    }
 })
