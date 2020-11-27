@@ -32,14 +32,13 @@ export const addToCart = asyncHandler( async (req,res) => {
                 if (!(cartProducts.product.id == prod.product)) {
                     userCart.products.push(prod)
                 }
-                    if (cartProducts.product.countInStock < (cartProducts.quantity + prod.quantity)){
-                        res.json({
-                            error: "there isn't enough product in stock"
-                        })
-                    }
-                    cartProducts.quantity += prod.quantity
-                    await userCart.save()
-           
+                if (cartProducts.product.countInStock < (cartProducts.quantity + prod.quantity)){
+                    res.json({
+                        error: "there isn't enough product in stock"
+                    })
+                }
+                cartProducts.quantity += prod.quantity
+                await userCart.save()
                 
             })
         })
@@ -89,6 +88,7 @@ export const getCarts = asyncHandler ( async (_,res) => {
         })
         res.status(200).json(cartArray)
     } catch (error) {
+        res.status(404)
         console.log(error);
         throw new Error("Error getting carts")
     }

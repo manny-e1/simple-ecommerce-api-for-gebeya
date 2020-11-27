@@ -60,6 +60,7 @@ export const deleteProduct = asyncHandler(async (req,res) =>{
         const deletedProduct = await Product.findByIdAndDelete(req.params.id)
         res.json(deletedProduct)
     } catch (error) {
-            res.json(error)
+        res.status(403)
+        throw new Error("error deleting product")
     }
 })
