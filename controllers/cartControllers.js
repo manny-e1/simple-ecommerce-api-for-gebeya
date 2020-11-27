@@ -28,9 +28,9 @@ export const addToCart = asyncHandler( async (req,res) => {
         }
         
         userCart.products.forEach(cartProducts => {
-            products.forEach( async prod => {
+            products.forEach(async prod => {
                 if (!(cartProducts.product.id == prod.product)) {
-                    cartProducts.push(prod)
+                    userCart.products.push(prod)
                 }
                     if (cartProducts.product.countInStock >= (cartProducts.quantity + prod.quantity)){
                         cartProducts.quantity += prod.quantity
@@ -44,7 +44,7 @@ export const addToCart = asyncHandler( async (req,res) => {
     
 })
 
-export const getCarts = asyncHandler ( async (req,res) => {
+export const getCarts = asyncHandler ( async (_,res) => {
     try {
         const cartArray = []
         let cartProductsArray = []
@@ -61,16 +61,16 @@ export const getCarts = asyncHandler ( async (req,res) => {
               },
             },
           })
-        carts.forEach(async prod => {
-            prod.products.forEach(async (item) =>{
+        carts.forEach(prod => {
+            prod.products.forEach((item) =>{
                 cartProductsArray.push({
+                    id: item.id,
                     product: item.product,
                     quantity: item.quantity,
                     subTotalPrice: item.product.price * item.quantity
                 }) 
                 
             })
-            console.log(cartProductsArray);
         })
         let totalPrice = 0
         cartProductsArray.forEach(prod =>     
@@ -91,6 +91,35 @@ export const getCarts = asyncHandler ( async (req,res) => {
     }
 })
 
+
+
+export const getCartById = asyncHandler ( async (req,res) => {
+    try {
+        const cart = await Cart.findById(req.params.id)
+        .select(" id buyer products")
+        .populate({
+            path: 'products',
+            populate: {
+              path: 'product',
+              model: 'Product',
+              select: "name price countInStock description image",
+              populate: {
+                path: 'vendor',
+                model: 'User',
+                select: "name email"
+              },
+            },
+          })
+        res.status(200).json({
+            cart,
+            subTotalPrice: cart.products.forEach(item => item.product.price * item.quantity)
+        })
+    } catch (error) {
+        console.log(error);
+        throw new Error("cart not found")
+    }
+})
+
 export const deleteCart = asyncHandler (async (req,res) => {
     try {
         const deletedCart = await Cart.findByIdAndDelete(req.params.id)
@@ -107,7 +136,8 @@ export const removeProductFromCart =  asyncHandler (async (req,res) => {
             buyer: req.user.id
         })
         const productIndex = userCart.products.findIndex(
-            products => products.id == req.params.id,
+            products => {console.log(products.id)
+                 return products.id == req.params.id}
           );
         if (productIndex === -1) {
             throw new Error('product not found in the cart')
