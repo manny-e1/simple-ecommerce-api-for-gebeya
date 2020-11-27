@@ -32,9 +32,12 @@ export const addToCart = asyncHandler( async (req,res) => {
                 if (!(cartProducts.product.id == prod.product)) {
                     userCart.products.push(prod)
                 }
-                    if (cartProducts.product.countInStock >= (cartProducts.quantity + prod.quantity)){
-                        cartProducts.quantity += prod.quantity
+                    if (cartProducts.product.countInStock < (cartProducts.quantity + prod.quantity)){
+                        res.json({
+                            error: "there isn't enough product in stock"
+                        })
                     }
+                    cartProducts.quantity += prod.quantity
                     await userCart.save()
            
                 
