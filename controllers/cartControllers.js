@@ -101,3 +101,24 @@ export const deleteCart = asyncHandler (async (req,res) => {
     
 })
 
+export const removeProductFromCart =  asyncHandler (async (req,res) => {
+    try {
+        const userCart = await Cart.findOne({
+            buyer: req.user.id
+        })
+        const productIndex = userCart.products.findIndex(
+            products => products.id == req.params.id,
+          );
+        if (productIndex === -1) {
+            throw new Error('product not found in the cart')
+        }
+
+        userCart.products.splice(productIndex, 1);
+        await userCart.save();
+        res.json(userCart)
+    } catch (error) {
+        console.log(error);
+        throw new Error("Error removing cart")
+    }
+    
+})
