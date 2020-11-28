@@ -2,17 +2,17 @@
 
 ## Technologies used
 
-- Node with Express
-- MongoDB
+ - Node with Express
+ - MongoDB
 
 ### To try it out
 
-1.  clone the repo
-2.  head to the root directory
+ 1.  clone the repo
+ 2.  head to the root directory
 
 #### with docker
 
-  run `docker-compose up`
+ - run `docker-compose up`
 
 #### without docker
 
