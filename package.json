@@ -19,5 +19,8 @@
     "express-async-handler": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.16"
+  },
+  "engines": {
+    "node": "14.15.0"
   }
 }
