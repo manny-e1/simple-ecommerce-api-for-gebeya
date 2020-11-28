@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
 
 
-export const postProduct = asyncHandler( async (req,res) => {
+export const postProduct = asyncHandler(async (req, res) => {
     const { name, image, description, price, countInStock } = req.body
     try {
         const createdProduct = await Product.create({
@@ -22,23 +22,29 @@ export const postProduct = asyncHandler( async (req,res) => {
     }
 })
 
-export const getProducts = asyncHandler( async (_,res) =>{
+export const getProducts = asyncHandler(async (req, res) => {
     try {
+        const pageNumber = req.query.page ? parseInt(req.query.page) : 1
+        const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10
+
         const products = await Product.find()
-                            .select("_id name image description price countInStock vendor")
+            .select("_id name image description price countInStock vendor")
+            .skip((pageNumber - 1) * pagination)
+            .limit(pagination)
         res.status(200).json(products)
     } catch (error) {
+        console.log(error);
         res.status(404)
         throw new Error('Error retrieving products')
     }
-    
+
 })
 
-export const getProductById = asyncHandler( async (req,res)=>{
+export const getProductById = asyncHandler(async (req, res) => {
     try {
         const product = await Product.findById(req.params.id).populate('vendor')
-        const { _id, name, image, description, 
-            price, countInStock, vendor: {name: seller} } = product
+        const { _id, name, image, description,
+            price, countInStock, vendor: { name: seller } } = product
         res.status(200).json({
             id: _id,
             name,
@@ -52,10 +58,10 @@ export const getProductById = asyncHandler( async (req,res)=>{
         res.status(404)
         throw new Error('Product not found')
     }
-    
+
 })
 
-export const deleteProduct = asyncHandler(async (req,res) =>{
+export const deleteProduct = asyncHandler(async (req, res) => {
     try {
         const deletedProduct = await Product.findByIdAndDelete(req.params.id)
         res.json(deletedProduct)
