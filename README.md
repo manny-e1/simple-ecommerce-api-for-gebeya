@@ -21,4 +21,4 @@
 
 ### Deployed live link
 
- [https://gebeya-api.herokuapp.com/!](https://gebeya-api.herokuapp.com/)
+ [https://gebeya-api.herokuapp.com](https://gebeya-api.herokuapp.com/)
