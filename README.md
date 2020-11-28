@@ -12,13 +12,13 @@
 
 #### with docker
 
-run `docker-compose up`
+  run `docker-compose up`
 
 #### without docker
 
-run `npm install`
-run `npm start`
+ - run `npm install`
+ - run `npm start`
 
 ### Deployed live link
 
-[https://gebeya-api.herokuapp.com/!](https://gebeya-api.herokuapp.com/)
+ [https://gebeya-api.herokuapp.com/!](https://gebeya-api.herokuapp.com/)
