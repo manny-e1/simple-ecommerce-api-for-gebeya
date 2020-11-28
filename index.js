@@ -2,6 +2,9 @@ import dotenv from 'dotenv'
 import connectDatabase from './config/db.js'
 import express from 'express'
 import cors from 'cors'
+import swaggerUi from "swagger-ui-express";
+
+import swaggerDocument from "./swagger.js" ;
 
 import { notFound, errorHandler } from './middlewares/error.js'
 
@@ -13,9 +16,12 @@ import baseRoute from './routes/baseRoute.js'
 dotenv.config()
 
 connectDatabase()
+
 const app = express()
 app.use(cors())
 app.use(express.json())
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
 
 app.use('/users', userRoutes)
 app.use('/products', productRoutes)

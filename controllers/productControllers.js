@@ -2,7 +2,7 @@ import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
 
 
-export const postProduct = asyncHandler(async (req, res) => {
+export const addProduct = asyncHandler(async (req, res) => {
     const { name, image, description, price, countInStock } = req.body
     try {
         const createdProduct = await Product.create({
@@ -28,7 +28,8 @@ export const getProducts = asyncHandler(async (req, res) => {
         const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10
 
         const products = await Product.find()
-            .select("_id name image description price countInStock vendor")
+            .select("_id name image description price countInStock")
+            .populate('vendor', 'name')
             .skip((pageNumber - 1) * pagination)
             .limit(pagination)
         res.status(200).json(products)
@@ -42,7 +43,7 @@ export const getProducts = asyncHandler(async (req, res) => {
 
 export const getProductById = asyncHandler(async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id).populate('vendor')
+        const product = await Product.findById(req.params.id).populate('vendor', 'name')
         const { _id, name, image, description,
             price, countInStock, vendor: { name: seller } } = product
         res.status(200).json({

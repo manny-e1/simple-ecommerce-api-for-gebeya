@@ -32,13 +32,15 @@ export const addToCart = asyncHandler( async (req,res) => {
                 if (!(cartProducts.product.id == prod.product)) {
                     userCart.products.push(prod)
                 }
+                if (!(cartProducts.product.countInStock < (cartProducts.quantity + prod.quantity))){
+                    cartProducts.quantity += prod.quantity
+                    await userCart.save()
+                }
                 if (cartProducts.product.countInStock < (cartProducts.quantity + prod.quantity)){
                     res.json({
-                        error: "there isn't enough product in stock"
+                        message: "there isn't enough product in stock"
                     })
                 }
-                cartProducts.quantity += prod.quantity
-                await userCart.save()
                 
             })
         })
@@ -74,6 +76,7 @@ export const getCarts = asyncHandler ( async (_,res) => {
                 
             })
         })
+        const addDecimals = (num) => Number(Math.round(num*100)/100).toFixed(2)
         let totalPrice = 0
         cartProductsArray.forEach(prod =>     
             totalPrice += prod.subTotalPrice )
@@ -83,7 +86,7 @@ export const getCarts = asyncHandler ( async (_,res) => {
                 id:cart._id,
                 buyer: cart.buyer,
                 products: cartProductsArray,
-                totalPrice
+                totalPrice: addDecimals(totalPrice)
             })
         })
         res.status(200).json(cartArray)
