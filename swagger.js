@@ -51,11 +51,11 @@ export default {
                 examples: {
                   userLoginResponse: {
                     value: {
-                        id: "5fc020a1b50cc31e04e46823",
-                        name: "Ron Stewart",
-                        email: "ronstewart@gmail.com",
-                        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYzAyMGExYjUwY2MzMWUwNGU0NjgyMyIsImlhdCI6MTYwNjU4MTA1OCwiZXhwIjoxNjA2NTk5MDU4fQ.OgdjjiTq0nYZwTkAjSUbPIwKeubFAK705IMbLboecHA"
-                      },
+                      id: "5fc020a1b50cc31e04e46823",
+                      name: "Ron Stewart",
+                      email: "ronstewart@gmail.com",
+                      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYzAyMGExYjUwY2MzMWUwNGU0NjgyMyIsImlhdCI6MTYwNjU4MTA1OCwiZXhwIjoxNjA2NTk5MDU4fQ.OgdjjiTq0nYZwTkAjSUbPIwKeubFAK705IMbLboecHA"
+                    },
                   },
                 },
               },
@@ -107,10 +107,10 @@ export default {
                 examples: {
                   userResgisterResponse: {
                     value: {
-                        id: "5fc020a1b50cc31e04e46823",
-                        name: "Ron Stewart",
-                        email: "ronstewart@gmail.com",
-                      },
+                      id: "5fc020a1b50cc31e04e46823",
+                      name: "Ron Stewart",
+                      email: "ronstewart@gmail.com",
+                    },
                   },
                 },
               },
@@ -181,13 +181,13 @@ export default {
                 examples: {
                   updateUserResponse: {
                     value: {
-                        id: "5fc020a1b50cc31e04e46823",
-                        name: "Ron Stewart",
-                        email: "ronstewart@gmail.com",
-                        "createdAt": "2020-11-28T19:53:10.524Z",
-                        "updatedAt": "2020-11-28T19:53:10.524Z",
-                        "__v": 0
-                      },
+                      id: "5fc020a1b50cc31e04e46823",
+                      name: "Ron Stewart",
+                      email: "ronstewart@gmail.com",
+                      "createdAt": "2020-11-28T19:53:10.524Z",
+                      "updatedAt": "2020-11-28T19:53:10.524Z",
+                      "__v": 0
+                    },
                   },
                 },
               },
@@ -288,18 +288,25 @@ export default {
             },
           },
         },
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
     },
-    "/users/:id": {
+    "/users/{id}": {
       get: {
         summary: "get one user",
         tags: ["user"],
         operationId: "getUserById",
+        parameters: [
+          {
+           in: "path",
+           name: "id",
+           description: "ID of the product",   
+          }
+        ],
         responses: {
           200: {
             description: "User schema",
@@ -311,10 +318,10 @@ export default {
                 examples: {
                   getUserByIdResponse: {
                     value: {
-                        _id: "5fc020a1b50cc31e04e46823",
-                        name: "Ron Stewart",
-                        email: "ronstewart@gmail.com",
-                      },
+                      _id: "5fc020a1b50cc31e04e46823",
+                      name: "Ron Stewart",
+                      email: "ronstewart@gmail.com",
+                    },
                   },
                 },
               },
@@ -358,6 +365,13 @@ export default {
         summary: "delete a user",
         tags: ["user"],
         operationId: "deleteUser",
+        parameters: [
+          {
+           in: "path",
+           name: "id",
+           description: "ID of the product",   
+          }
+        ],
         responses: {
           200: {
             description: "User schema",
@@ -369,10 +383,10 @@ export default {
                 examples: {
                   deleteUserResponse: {
                     value: {
-                        _id: "5fc020a1b50cc31e04e46823",
-                        name: "Ron Stewart",
-                        email: "ronstewart@gmail.com",
-                      },
+                      _id: "5fc020a1b50cc31e04e46823",
+                      name: "Ron Stewart",
+                      email: "ronstewart@gmail.com",
+                    },
                   },
                 },
               },
@@ -425,6 +439,18 @@ export default {
         summary: "get all products from the store",
         tags: ["product"],
         operationId: "getProducts",
+        parameters: [
+          {
+           in: "query",
+           name: "pageNumber",
+           description: "The page number you want to visit",   
+          },
+          {
+           in: "query",
+           name: "pagination",
+           description: "The length of products you want to display in one page",
+          },
+         ],
         responses: {
           200: {
             description: "Product schema",
@@ -510,20 +536,6 @@ export default {
               schema: {
                 $ref: "#/definitions/Product",
               },
-              examples: {
-                Product1: {
-                  value: {
-                    name: "Ron Stewart",
-                    image: "https:cloud.ds/ds/ds.jpg",
-                    description: "Description",
-                    price: 2,
-                    countInStock: 3,
-                    "createdAt": "2020-11-28T19:53:10.524Z",
-                    "updatedAt": "2020-11-28T19:53:10.524Z",
-                    "__v": 0
-                  },
-                },
-              },
             },
           },
         },
@@ -587,11 +599,19 @@ export default {
       },
     },
 
-    "/products/:id": {
+    "/products/{id}": {
       get: {
         summary: "get a single product from store",
         tags: ["product"],
         operationId: "getProductById",
+        parameters: [
+          {
+           in: "path",
+           name: "id",
+           type: "string",
+           description: "ID of the product",   
+          }
+        ],
         responses: {
           200: {
             description: "Product schema",
@@ -603,17 +623,17 @@ export default {
                 examples: {
                   getProductResponse: {
                     value: {
-                        price: 30.0,
-                        countInStock: 3,
-                        _id: "5fc28302682236394c702b49",
-                        vendor: {
-                          "_id": "5fc020a1b50cc31e04e46823",
-                          "name": "Amanuel Ewnetu"
-                        },
-                        name: "Air Jordan 1",
-                        image: "https://picturesite.cm/picture1.jpg",
-                        description: "Description",
+                      price: 30.0,
+                      countInStock: 3,
+                      _id: "5fc28302682236394c702b49",
+                      vendor: {
+                        "_id": "5fc020a1b50cc31e04e46823",
+                        "name": "Amanuel Ewnetu"
                       },
+                      name: "Air Jordan 1",
+                      image: "https://picturesite.cm/picture1.jpg",
+                      description: "Description",
+                    },
                   },
                 },
               },
@@ -657,6 +677,13 @@ export default {
         summary: "delete product from the store",
         tags: ["product"],
         operationId: "deleteProduct",
+        parameters: [
+          {
+           in: "path",
+           name: "id",
+           description: "ID of the product",   
+          }
+        ],
         responses: {
           201: {
             description: "Product schema",
@@ -748,49 +775,49 @@ export default {
                       "_id": "5fc2aaa654dfaf001725e1dd",
                       "buyer": "Rob stewart",
                       "products": [
-                          {
-                              "_id": "5fc2aaa654dfaf001725e1de",
-                              "product": {
-                                name: "Air Jordan",
-                                price: 33.3,
-                                countInStock: 55,
-                                description: "description",
-                                image: "https://picturesite.cm/picture3.jpg"
-                              },
-                              "quantity": 1
+                        {
+                          "_id": "5fc2aaa654dfaf001725e1de",
+                          "product": {
+                            name: "Air Jordan",
+                            price: 33.3,
+                            countInStock: 55,
+                            description: "description",
+                            image: "https://picturesite.cm/picture3.jpg"
                           },
+                          "quantity": 1
+                        },
                       ],
                       "createdAt": "2020-11-28T19:53:10.524Z",
                       "updatedAt": "2020-11-28T19:53:10.524Z",
                       "__v": 0,
                     },
                   },
+                },
               },
             },
-          },
-          400: {
-            decription: "Error message",
-            content: {
-              "application/json": {
-                schema: {
-                  $ref: '#/definitions/Error',
-                },
-                examples: {
-                  ResponseError1: {
-                    value: {
-                      message: "there isn't enough product in stock"
-                    },
-                   },
-                   ResponseError2: {
-                    value: {
-                      message: "Not Authorized"
-                    },
+            400: {
+              decription: "Error message",
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: '#/definitions/Error',
                   },
-                  ResponseError3: {
-                    value: {
-                      message: "Not Authorized, no token"
+                  examples: {
+                    ResponseError1: {
+                      value: {
+                        message: "there isn't enough product in stock"
+                      },
                     },
-                  },
+                    ResponseError2: {
+                      value: {
+                        message: "Not Authorized"
+                      },
+                    },
+                    ResponseError3: {
+                      value: {
+                        message: "Not Authorized, no token"
+                      },
+                    },
                   },
                 },
               },
@@ -819,92 +846,92 @@ export default {
                   getCartsResponse: {
                     value: [
                       {
-                          "id": "5fc0c7c47a5c5a2824b3bdfe",
-                          "buyer": "5fc020a1b50cc31e04e46823",
-                          "products": [
-                              {
-                                  "id": "5fc0c7c47a5c5a2824b3bdff",
-                                  "product": {
-                                      "price": 89.99,
-                                      "countInStock": 10,
-                                      "_id": "5fc0bbc3653b911ea40ec793",
-                                      "vendor": {
-                                          "_id": "5fc020a1b50cc31e04e46823",
-                                          "name": "Amanuel Ewnetu",
-                                          "email": "aewnetu6@gmail.com"
-                                      },
-                                      "name": "airpods",
-                                      "image": "/images/airpods.jpg",
-                                      "description": "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working"
-                                  },
-                                  "quantity": 5,
-                                  "subTotalPrice": 155.13
+                        "id": "5fc0c7c47a5c5a2824b3bdfe",
+                        "buyer": "5fc020a1b50cc31e04e46823",
+                        "products": [
+                          {
+                            "id": "5fc0c7c47a5c5a2824b3bdff",
+                            "product": {
+                              "price": 89.99,
+                              "countInStock": 10,
+                              "_id": "5fc0bbc3653b911ea40ec793",
+                              "vendor": {
+                                "_id": "5fc020a1b50cc31e04e46823",
+                                "name": "Amanuel Ewnetu",
+                                "email": "aewnetu6@gmail.com"
                               },
-                              {
-                                  "id": "5fc2aa2854dfaf001725e1dc",
-                                  "product": {
-                                      "price": 100.99,
-                                      "countInStock": 55,
-                                      "_id": "5fc2a92154dfaf001725e1cf",
-                                      "vendor": {
-                                          "_id": "5fc020a1b50cc31e04e46823",
-                                          "name": "Amanuel Ewnetu",
-                                          "email": "aewnetu6@gmail.com"
-                                      },
-                                      "name": "jdcnskjdskcksd",
-                                      "image": "/images/sdjfksdjnfksd.jpg",
-                                      "description": "phone allows you to take calls while working"
-                                  },
-                                  "quantity": 1,
-                                  "subTotalPrice": 100.99
+                              "name": "airpods",
+                              "image": "/images/airpods.jpg",
+                              "description": "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working"
+                            },
+                            "quantity": 5,
+                            "subTotalPrice": 155.13
+                          },
+                          {
+                            "id": "5fc2aa2854dfaf001725e1dc",
+                            "product": {
+                              "price": 100.99,
+                              "countInStock": 55,
+                              "_id": "5fc2a92154dfaf001725e1cf",
+                              "vendor": {
+                                "_id": "5fc020a1b50cc31e04e46823",
+                                "name": "Amanuel Ewnetu",
+                                "email": "aewnetu6@gmail.com"
                               },
-                          ],
-                          "totalPrice": 255.32
+                              "name": "jdcnskjdskcksd",
+                              "image": "/images/sdjfksdjnfksd.jpg",
+                              "description": "phone allows you to take calls while working"
+                            },
+                            "quantity": 1,
+                            "subTotalPrice": 100.99
+                          },
+                        ],
+                        "totalPrice": 255.32
                       },
                       {
-                          "id": "5fc2aaa654dfaf001725e1dd",
-                          "buyer": "5fc2a9bb54dfaf001725e1d0",
-                          "products": [
-                              {
-                                  "id": "5fc0c7c47a5c5a2824b3bdff",
-                                  "product": {
-                                      "price": 89.99,
-                                      "countInStock": 10,
-                                      "_id": "5fc0bbc3653b911ea40ec793",
-                                      "vendor": {
-                                          "_id": "5fc020a1b50cc31e04e46823",
-                                          "name": "Amanuel Ewnetu",
-                                          "email": "aewnetu6@gmail.com"
-                                      },
-                                      "name": "airpods",
-                                      "image": "/images/airpods.jpg",
-                                      "description": "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working"
-                                  },
-                                  "quantity": 86,
-                                  "subTotalPrice": 79.13
+                        "id": "5fc2aaa654dfaf001725e1dd",
+                        "buyer": "5fc2a9bb54dfaf001725e1d0",
+                        "products": [
+                          {
+                            "id": "5fc0c7c47a5c5a2824b3bdff",
+                            "product": {
+                              "price": 89.99,
+                              "countInStock": 10,
+                              "_id": "5fc0bbc3653b911ea40ec793",
+                              "vendor": {
+                                "_id": "5fc020a1b50cc31e04e46823",
+                                "name": "Amanuel Ewnetu",
+                                "email": "aewnetu6@gmail.com"
                               },
-                              {
-                                  "id": "5fc2a9c954dfaf001725e1d3",
-                                  "product": {
-                                      "price": 100.99,
-                                      "countInStock": 55,
-                                      "_id": "5fc2a92154dfaf001725e1cf",
-                                      "vendor": {
-                                          "_id": "5fc020a1b50cc31e04e46823",
-                                          "name": "Amanuel Ewnetu",
-                                          "email": "aewnetu6@gmail.com"
-                                      },
-                                      "name": "jdcnskjdskcksd",
-                                      "image": "/images/sdjfksdjnfksd.jpg",
-                                      "description": "phone allows you to take calls while working"
-                                  },
-                                  "quantity": 21,
-                                  "subTotalPrice": 20.79
+                              "name": "airpods",
+                              "image": "/images/airpods.jpg",
+                              "description": "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working"
+                            },
+                            "quantity": 86,
+                            "subTotalPrice": 79.13
+                          },
+                          {
+                            "id": "5fc2a9c954dfaf001725e1d3",
+                            "product": {
+                              "price": 100.99,
+                              "countInStock": 55,
+                              "_id": "5fc2a92154dfaf001725e1cf",
+                              "vendor": {
+                                "_id": "5fc020a1b50cc31e04e46823",
+                                "name": "Amanuel Ewnetu",
+                                "email": "aewnetu6@gmail.com"
                               },
-                          ],
-                          "totalPrice": 254.32
+                              "name": "jdcnskjdskcksd",
+                              "image": "/images/sdjfksdjnfksd.jpg",
+                              "description": "phone allows you to take calls while working"
+                            },
+                            "quantity": 21,
+                            "subTotalPrice": 20.79
+                          },
+                        ],
+                        "totalPrice": 254.32
                       }
-                  ],
+                    ],
                   },
                 },
               },
@@ -946,11 +973,18 @@ export default {
       },
     },
 
-    "/carts/:id": {
+    "/carts/{id}": {
       get: {
         summary: "get a single cart",
         tags: ["cart"],
         operationId: "getCartById",
+        parameters: [
+          {
+           in: "path",
+           name: "id",
+           description: "ID of the cart",   
+          }
+        ],
         responses: {
           200: {
             description: "Cart schema",
@@ -966,43 +1000,43 @@ export default {
                         "_id": "5fc0c7c47a5c5a2824b3bdfe",
                         "buyer": "5fc020a1b50cc31e04e46823",
                         "products": [
-                            {
-                                "_id": "5fc0c7c47a5c5a2824b3bdff",
-                                "product": {
-                                    "price": 89.99,
-                                    "countInStock": 10,
-                                    "_id": "5fc0bbc3653b911ea40ec793",
-                                    "vendor": {
-                                        "_id": "5fc020a1b50cc31e04e46823",
-                                        "name": "Amanuel Ewnetu",
-                                        "email": "aewnetu6@gmail.com"
-                                    },
-                                    "name": "airpods",
-                                    "image": "/images/airpods.jpg",
-                                    "description": "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working"
-                                },
-                                "quantity": 86
+                          {
+                            "_id": "5fc0c7c47a5c5a2824b3bdff",
+                            "product": {
+                              "price": 89.99,
+                              "countInStock": 10,
+                              "_id": "5fc0bbc3653b911ea40ec793",
+                              "vendor": {
+                                "_id": "5fc020a1b50cc31e04e46823",
+                                "name": "Amanuel Ewnetu",
+                                "email": "aewnetu6@gmail.com"
+                              },
+                              "name": "airpods",
+                              "image": "/images/airpods.jpg",
+                              "description": "Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working"
                             },
-                            {
-                                "_id": "5fc2aa1b54dfaf001725e1d7",
-                                "product": {
-                                    "price": 100.99,
-                                    "countInStock": 55,
-                                    "_id": "5fc2a92154dfaf001725e1cf",
-                                    "vendor": {
-                                        "_id": "5fc020a1b50cc31e04e46823",
-                                        "name": "Amanuel Ewnetu",
-                                        "email": "aewnetu6@gmail.com"
-                                    },
-                                    "name": "jdcnskjdskcksd",
-                                    "image": "/images/sdjfksdjnfksd.jpg",
-                                    "description": "phone allows you to take calls while working"
-                                },
-                                "quantity": 6
+                            "quantity": 86
+                          },
+                          {
+                            "_id": "5fc2aa1b54dfaf001725e1d7",
+                            "product": {
+                              "price": 100.99,
+                              "countInStock": 55,
+                              "_id": "5fc2a92154dfaf001725e1cf",
+                              "vendor": {
+                                "_id": "5fc020a1b50cc31e04e46823",
+                                "name": "Amanuel Ewnetu",
+                                "email": "aewnetu6@gmail.com"
+                              },
+                              "name": "jdcnskjdskcksd",
+                              "image": "/images/sdjfksdjnfksd.jpg",
+                              "description": "phone allows you to take calls while working"
                             },
+                            "quantity": 6
+                          },
                         ]
-                    }
-                      },
+                      }
+                    },
                   },
                 },
               },
@@ -1046,6 +1080,13 @@ export default {
         summary: "delete cart",
         tags: ["cart"],
         operationId: "deleteCart",
+        parameters: [
+          {
+           in: "path",
+           name: "id",
+           description: "ID of the cart",   
+          }
+        ],
         responses: {
           201: {
             description: "Cart schema",
@@ -1060,16 +1101,16 @@ export default {
                       "_id": "5fc0c7c47a5c5a2824b3bdfe",
                       "buyer": "5fc020a1b50cc31e04e46823",
                       "products": [
-                          {
-                              "_id": "5fc0c7c47a5c5a2824b3bdff",
-                              "product": "5fc0bbc3653b911ea40ec793",
-                              "quantity": 86
-                          },
-                          {
-                              "_id": "5fc0ded8f8037713ecbcef4b",
-                              "product": "5fc0bd05fad1b6059ce1b8b2",
-                              "quantity": 9
-                          },
+                        {
+                          "_id": "5fc0c7c47a5c5a2824b3bdff",
+                          "product": "5fc0bbc3653b911ea40ec793",
+                          "quantity": 86
+                        },
+                        {
+                          "_id": "5fc0ded8f8037713ecbcef4b",
+                          "product": "5fc0bd05fad1b6059ce1b8b2",
+                          "quantity": 9
+                        },
                       ],
                       "createdAt": "2020-11-27T09:32:52.282Z",
                       "updatedAt": "2020-11-28T19:51:04.196Z",
@@ -1116,11 +1157,18 @@ export default {
       },
     },
 
-    "/carts/removeproductfromcart/:id": {
+    "/carts/removeproductfromcart/{id}": {
       put: {
         summary: "remove product from user's cart by passing an id of cart's id of a single product",
         tags: ["cart"],
         operationId: "removeProductFromCart",
+        parameters: [
+          {
+           in: "path",
+           name: "id",
+           description: "cart's id of a single product",   
+          }
+        ],
         requestBody: {
           content: {
             "application/json": {
@@ -1144,16 +1192,16 @@ export default {
                       "_id": "5fc2b895455e4828cce2cdf2",
                       "buyer": "5fc2a9bb54dfaf001725e1d0",
                       "products": [
-                          {
-                              "_id": "5fc2b895455e4828cce2cdf3",
-                              "product": "5fc0bbc3653b911ea40ec793",
-                              "quantity": 7
-                          }
+                        {
+                          "_id": "5fc2b895455e4828cce2cdf3",
+                          "product": "5fc0bbc3653b911ea40ec793",
+                          "quantity": 7
+                        }
                       ],
                       "createdAt": "2020-11-28T20:52:37.272Z",
                       "updatedAt": "2020-11-28T20:58:59.066Z",
                       "__v": 2
-                  },
+                    },
                   },
                 },
               },
@@ -1199,6 +1247,7 @@ export default {
         ],
       },
     },
+  },
 
   definitions: {
     Product: {
@@ -1224,7 +1273,7 @@ export default {
         },
       },
     },
-    UserRegister:{
+    UserRegister: {
       type: "object",
       properties: {
         name: {
@@ -1238,7 +1287,7 @@ export default {
         },
       },
     },
-    UserLogin:{
+    UserLogin: {
       type: "object",
       properties: {
         email: {
@@ -1249,23 +1298,30 @@ export default {
         },
       },
     },
-    Cart:{
+    UserLoginResponse: {
+      type: "object",
+    },
+    Cart: {
       type: "object",
       properties: {
         buyer: {
           type: "string",
         },
-        products: {
-          type: "array",
-          properties: {
-            product: {
-              type: "string",
-            },
-            quantity: {
-              type: "integer"
+        products: 
+          {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                product: {
+                  type: "string",
+                },
+                quantity: {
+                  type: "integer"
+                }
+              }
             }
-          }
-        },
+          } 
       },
     },
     Error: {
@@ -1278,14 +1334,14 @@ export default {
     },
   },
 
-  components: {
-    securitySchemes: {
-      bearerAuth: {
-        type: "http",
-        scheme: "bearer",
-        bearerFormat: "JWT",
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
       },
     },
-  },
-  }
+
 };

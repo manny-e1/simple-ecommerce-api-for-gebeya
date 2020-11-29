@@ -24,7 +24,7 @@ export const addProduct = asyncHandler(async (req, res) => {
 
 export const getProducts = asyncHandler(async (req, res) => {
     try {
-        const pageNumber = req.query.page ? parseInt(req.query.page) : 1
+        const pageNumber = req.query.pageNumber ? parseInt(req.query.pageNumber) : 1
         const pagination = req.query.pagination ? parseInt(req.query.pagination) : 10
 
         const products = await Product.find()
