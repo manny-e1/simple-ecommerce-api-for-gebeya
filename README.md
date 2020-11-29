@@ -5,6 +5,9 @@
  - Node with Express
  - MongoDB
 
+## To check the API documentation
+- head to ``` localhost:5000/api-docs ``` or ``` https://gebeya-api.herokuapp.com/api-docs ```
+
 ### To try it out
 
  1.  clone the repo
