@@ -14,53 +14,33 @@ export const baseRoute = (_,res) => {
                 route: '/users/all',
                 method: 'GET'
             },
-            getUserById: {
+            deleteANDgetUserById: {
                 route: 'users/:id',
-                method: 'GET'
+                method: 'DELETE and GET'
             },
             updateLoggedInUserField: {
                 route: '/users/update',
                 method: 'PUT'
             },
-            deleteUser: {
-                route: '/users/delete/:id',
-                method: 'DELETE'
-            },
         },
         ProductRoutes: {
-            createProduct: {
-                route: '/products/create',
-                method: 'POST'
-            },
-            getAllProducts: {
+            createProduct_AND_getAllProducts: {
                 route: '/products',
-                method: 'GET'
+                method: 'POST and GET'
             },
-            getProductById: {
+            getProductById_AND_deleteProduct: {
                 route: '/products/:id',
-                method: 'GET'
-            },
-            deleteProduct: {
-                route: '/products/delete/:id',
-                method: 'DELETE'
+                method: 'GET and DELETE'
             },
         },
         cartRoutes: {
-            addItemsToCart: {
-                route: '/carts/addToCart',
-                method: 'POST'
-            },
-            getAllCarts: {
+            addItemsToCart_AND_getAllCarts: {
                 route: '/carts',
-                method: 'GET'
+                method: 'POST and GET'
             },
-            getCartById: {
+            getCartById_AND_deleteCartById: {
                 route: '/carts/:id',
-                method: 'GET'
-            },
-            deleteCartById: {
-                route: '/carts/delete/:id',
-                method: 'DELETE'
+                method: 'GET and DELETE'
             },
             removeProductFromCart: {
                 route: '/carts/removeproductfromcart/:id',
